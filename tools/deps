@@ -1,7 +1,6 @@
 #!/bin/bash
 
-cd "$(basename "$0")"
-echo "$(basename "$0")"
+cd "$(dirname "$0")"
 
 OUT=${1:-deps}
 DEPS_FILE=${2:-deps.json}
