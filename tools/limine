@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd "$(dirname "$0")"
-
 LIMINE_OUT=${1:-limine}
 
 if [ ! -d "$LIMINE_OUT" ]; then
