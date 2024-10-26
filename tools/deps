@@ -1,4 +1,7 @@
 #!/bin/bash
+
+cd "$(dirname "$(realpath "$0")")"
+
 OUT=${1:-deps}
 DEPS_FILE=${2:-deps.json}
 
