@@ -1,0 +1,49 @@
+#!/bin/bash
+OUT=${1:-deps}
+DEPS_FILE=${2:-deps.json}
+
+set -e
+
+mkdir -p "$OUT"
+
+if [[ ! -f "$DEPS_FILE" ]]; then
+    echo "Error: File '$DEPS_FILE' not found."
+    exit 1
+fi
+
+download_file() {
+    local url=$1
+    local output=$2
+
+    if command -v wget &> /dev/null; then
+        wget "$url" -O "$output"
+    elif command -v curl &> /dev/null; then
+        curl -L "$url" -o "$output"
+    else
+        echo "Error: Neither wget nor curl is available for downloading."
+        exit 1
+    fi
+}
+
+cat "$DEPS_FILE" | jq -c '.[]' | while IFS= read -r dep; do
+    name=$(echo "$dep" | jq -r '.name')
+    url=$(echo "$dep" | jq -r '.url')
+    output_zip="$OUT/$name.zip"
+    output_dir="$OUT/$name"
+
+    if [[ -d "$output_dir" ]]; then
+        echo ">>> $name is already downloaded and extracted to $output_dir. Skipping..."
+        continue
+    fi
+
+    echo ">>> Downloading $name from $url..."
+    download_file "$url" "$output_zip"
+
+    mkdir -p "$output_dir"
+
+    unzip -q -j "$output_zip" -d "$output_dir"
+
+    rm "$output_zip"
+
+    echo ">>> $name has been downloaded and extracted to $output_dir."
+done

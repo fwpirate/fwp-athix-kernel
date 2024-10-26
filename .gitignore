@@ -1,0 +1,11 @@
+.config
+.config.old
+*.o
+*~
+*.bak
+*.swp
+*.log
+external/
+athix-kernel
+limine/
+*.iso

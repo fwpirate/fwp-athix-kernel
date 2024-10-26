@@ -1,0 +1,28 @@
+menu "Athix Kernel Configuration"
+
+menu "Build Options"
+    choice
+        prompt "Select Build Type"
+        default BUILD_TYPE_RELEASE
+
+        config BUILD_TYPE_RELEASE
+            bool "Release"
+            help
+                Optimized for performance.
+
+        config BUILD_TYPE_DEBUG
+            bool "Debug"
+            help
+                Includes debugging in the kernel for development.
+    endchoice
+endmenu
+
+menu "Kernel Options"
+    config KERNEL_VERBOSE
+        bool "Verbose Kernel Output"
+        help
+            Enable verbose output during kernel execution. 
+            Useful for debugging and understanding kernel behavior.
+endmenu
+
+endmenu
